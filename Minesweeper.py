@@ -141,23 +141,25 @@ def initialize_numbers(): # changes -1 with the amount of mines around the given
     
 
 def onMousePress(mouseX, mouseY, button):
+    global first_click # needed it to be explicitly said to python
+
     for row in range(rows): 
         for col in range(cols): 
             if board[row][col].hits(mouseX,mouseY):
                 if (button == 0): # button is 0 means left click 
                     board[row][col].flag.visible = False # each square has an invisible flag so when clicked if double it will reveal
-                    if isinstance(board[row][col].content,Circle) == True:
-                        if click_counter == 0:   #click_counter
+                    if isinstance(board[row][col].content,Circle) == True: # if it is a mine
+                        if first_click == True:   #when first click is a mine
                             place_mine()
                             initialize_numbers()
-                        else:
-                            click_counter +=1
+                        else: # case for mine but not first click
+                            first_click = False # not first click
                             board[row][col].content.fill= 'red'  #end the game?
                             board[row][col].content.visible = True
-                    else: # button is 1 will be right click
+                    else: # No mine there
                         board[row][col].content.visible = True
 
-                else:
+                else: # right click so button =1
                     if board[row][col].flag.visible == False:
                         board[row][col].flag.visible = True
                     else:
@@ -170,28 +172,40 @@ def onMousePress(mouseX, mouseY, button):
                        
 def place_mine():
     # USE fisher-yates shuffle (shuffle index len rowxcol and pick first 10 to be mines)
+    global number_of_mines
+    global flat_list_of_squares
     mine_count = 0 # starts at 0 cause need to randomly pla
-    for i in range(rows):
+
+    
+    for i in range(rows): 
         for j in range(cols):
-            random_mine = random.randint(0,4) # placing the mines when randomly generates a 0 it will put a mine on the map
-            if random_mine == 0 and mine_count<10: # 10 mines
-                mine_count +=1 # adds to the mine count
+            random.shuffle(flat_list_of_squares) # shuffling that list
+            random_mine = flat_list_of_squares[0] # grabbing first item in the list
+            row = random_mine // cols
+            column = random_mine % cols
+            if row == i and j == column and mine_count < number_of_mines: # 10 mines
+                mine_count +=1 # adds to the mine count8
                 board[i][j] = draw_square(j* 30+ 70, i*30 + 70, 0) # draw square is the function I defined in the beginning - draws it @ specific coordinate and gives it a # square will have a 0 cause its a mine
             #when no mine
             else:
                 board[i][j] = draw_square(j* 30+ 70, i*30 + 70, -1)    # -1 means number so no mine at the spot
-    Label("Minecount: ",40,30)
-    mine_count_label = Label(mine_count, 80,30)
+    
+    Label("Minecount: ",40,20)
+    mine_count_label = Label(mine_count, 80,20)
     initialize_numbers() # how you find how many mines are around it and put in the label that was created in 
 
         
     eventLabel = Label('', 200, 150, size=40)
     buttonsLabel = Label('', 200, 250, size=40)
+    
 
-
-rows = 9
-cols = 9
-click_counter = 0 
+## game settings
+size = int(input("How big do you want the minefield to be?[Enter a number between 8-12]: "))
+number_of_mines = int(input("How many mines do you want to have?: "))
+rows = size
+cols = size
+flat_list_of_squares = range(size * size -1)
+first_click = True # initializing to true if its the first click when the came starts
 #  Making the board - LIST OF LISTS!!! 
 # for each row there will be a same number of columnts
 board = [ ([0] * cols) for row in range(rows) ] 
