@@ -142,6 +142,7 @@ def initialize_numbers(): # changes -1 with the amount of mines around the given
 
 def onMousePress(mouseX, mouseY, button):
     global first_click # needed it to be explicitly said to python
+    global mine_count_label
 
     for row in range(rows): 
         for col in range(cols): 
@@ -152,14 +153,14 @@ def onMousePress(mouseX, mouseY, button):
                         if first_click == True:   #when first click is a mine
                             place_mine()
                             initialize_numbers()
-                        else: # case for mine but not first click
-                            first_click = False # not first click
+                        else: # case for mine but not first click9
                             board[row][col].content.fill= 'red'  #end the game?
                             board[row][col].content.visible = True
                     else: # No mine there
                         board[row][col].content.visible = True
 
                 else: # right click so button =1
+                    first_click = False
                     if board[row][col].flag.visible == False:
                         board[row][col].flag.visible = True
                     else:
@@ -174,17 +175,24 @@ def place_mine():
     # USE fisher-yates shuffle (shuffle index len rowxcol and pick first 10 to be mines)
     global number_of_mines
     global flat_list_of_squares
-    mine_count = 0 # starts at 0 cause need to randomly pla
+    global mine_count_label
+
+    mine_count = 0 # starts at 0 
+
+    random.shuffle(flat_list_of_squares) # shuffle the list
+    first_n_random_values_of_list = flat_list_of_squares[:number_of_mines] # get the first number_of_mines position of numbers random
+    first_n_random_values_of_list.sort() # sort the numbers to add the mines in grid order(cause that is the way you will traverse)
 
     
     for i in range(rows): 
         for j in range(cols):
-            random.shuffle(flat_list_of_squares) # shuffling that list
-            random_mine = flat_list_of_squares[0] # grabbing first item in the list
+            if mine_count < number_of_mines:
+                random_mine = first_n_random_values_of_list[mine_count] # grabbing mine-count-th mine in that sorted list
             row = random_mine // cols
             column = random_mine % cols
-            if row == i and j == column and mine_count < number_of_mines: # 10 mines
-                mine_count +=1 # adds to the mine count8
+        
+            if mine_count < number_of_mines and row == i and j== column: #number of mines
+                mine_count +=1 # adds to the mine count
                 board[i][j] = draw_square(j* 30+ 70, i*30 + 70, 0) # draw square is the function I defined in the beginning - draws it @ specific coordinate and gives it a # square will have a 0 cause its a mine
             #when no mine
             else:
