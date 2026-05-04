@@ -204,7 +204,7 @@ size = int(input("How big do you want the minefield to be?[Enter a number betwee
 number_of_mines = int(input("How many mines do you want to have?: "))
 rows = size
 cols = size
-flat_list_of_squares = range(size * size -1)
+flat_list_of_squares = list(range(size * size))
 first_click = True # initializing to true if its the first click when the came starts
 #  Making the board - LIST OF LISTS!!! 
 # for each row there will be a same number of columnts
