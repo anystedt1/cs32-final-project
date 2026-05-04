@@ -15,4 +15,7 @@ Run the code then a window should pop up with a graphic containing a grid of squ
 -- RULES --
 
 Some rules are meant to be broken but please dont break these ones. 
-Run the code then ......
+1) Run the code
+2) You will be prompted in the terminal for a number of how big you want the minefield to be, enter a number((Please enter a valid number it will not validate))
+3) You will be prompted in the terminal for how many mines you want, enter a number(Please enter a number it will not validate)
+4) 
