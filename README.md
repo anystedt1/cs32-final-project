@@ -3,7 +3,7 @@ Andrea's CS32 Final Project
 
 WELCOME TO MINESWEEPER!
 
-This game of deduction will hopefully cure some of your boredom. Remember the goal of this game is to make it out in one piece by not pressing a mine and identifying all the mines.
+This game of deduction will hopefully cure some of your boredom. Remember the goal of this game is to make it out in one piece by not pressing a mine and identifying all the mines. Tread carefully!
 
 
 -- Getting Started(Read before you play!) --
@@ -18,4 +18,5 @@ Some rules are meant to be broken but please dont break these ones.
 1) Run the code
 2) You will be prompted in the terminal for a number of how big you want the minefield to be, enter a number((Please enter a valid number it will not validate))
 3) You will be prompted in the terminal for how many mines you want, enter a number(Please enter a number it will not validate)
-4) 
+4) A pop up should appear with the field
+5) Play the game
