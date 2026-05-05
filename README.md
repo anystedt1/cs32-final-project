@@ -24,3 +24,6 @@ Some rules are meant to be broken but please dont break these ones.
 6) To reveal a square left click
 7) The game will end when either a mine is clicked or when you have found all the mines
 8) Good Luck!
+
+----- NOTE -----
+GenAI was used for troubleshooting and explanations
