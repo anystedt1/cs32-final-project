@@ -22,7 +22,7 @@ def draw_square(x, y, number): # make a bunch of squares
             flag
     )   
     square_with_mine_or_num.content = num_or_mine  # custom attribute content
-    square_with_mine_or_num.content.visible = True #invisible trait
+    square_with_mine_or_num.content.visible = False #invisible trait
     square_with_mine_or_num.flag = flag  # custom attribute flag which can be added on
     square_with_mine_or_num.flag.visible = False # invisible flag
     return square_with_mine_or_num # returns the value of what the squares "secret is"
@@ -140,7 +140,7 @@ def initialize_numbers(): # changes -1 with the amount of mines around the given
       
     
 
-def onMousePress(mouseX, mouseY, button):
+def onMousePress(mouseX, mouseY, button): # Defines what happens when you click with your mouse
     global first_click # needed it to be explicitly said to python
     global mine_count_label
 
@@ -156,9 +156,11 @@ def onMousePress(mouseX, mouseY, button):
                         else: # case for mine but not first click9
                             board[row][col].content.fill= 'red'  #end the game?
                             board[row][col].content.visible = True
+                            Label('GAME OVER!', 200, 200, size=50, fill='red', bold=True)
+                            app.stop()
                     else: # No mine there
                         board[row][col].content.visible = True
-
+                        first_click = False # if its not a circle then first click will be false so then you can continue
                 else: # right click so button =1
                     first_click = False
                     if board[row][col].flag.visible == False:
@@ -169,6 +171,10 @@ def onMousePress(mouseX, mouseY, button):
                             board[row][col].content.fill= 'green'  #end the game?
                             mine_count_label.value -=1
                         board[row][col].content.visible = True
+                        if mine_count_label.value == 0: # WIN CASE
+                            Label('YOU WIN!', 200, 200, size=50, fill='green', bold=True)
+                            app.stop()
+
                         
                        
 def place_mine():
@@ -201,8 +207,7 @@ def place_mine():
     Label("Minecount: ",40,20)
     mine_count_label = Label(mine_count, 80,20)
     initialize_numbers() # how you find how many mines are around it and put in the label that was created in 
-
-        
+ 
     eventLabel = Label('', 200, 150, size=40)
     buttonsLabel = Label('', 200, 250, size=40)
     
@@ -221,4 +226,3 @@ board = [ ([0] * cols) for row in range(rows) ]
 place_mine()        
                    
 cmu_graphics.run()
-
